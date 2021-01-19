@@ -1,0 +1,107 @@
+@import "../../node_modules/uikit/src/scss/variables-theme.scss";
+@import "../../node_modules/uikit/src/scss/mixins-theme.scss";
+@import "../../node_modules/uikit/src/scss/uikit-theme.scss";
+
+$panelHeight: 64px;
+
+*
+{
+    box-sizing: border-box;
+}
+
+h2
+{
+    color: #000;
+}
+
+.panel
+{
+    display: flex;
+    justify-content: flex-end;   
+    height: $panelHeight;
+    padding: 12px;
+    border-bottom: 1px solid black;
+
+    button[data-exit]
+    {
+        margin-right: auto;
+    }
+}
+
+iframe
+{
+    position: absolute;
+    top: $panelHeight;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - #{$panelHeight});
+    border: 0;    
+}
+
+.spinner-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);    
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0; 
+    transition: opacity .7s, visibility .7s;    
+
+    &.active
+    {
+        visibility: visible; 
+        opacity: 1;              
+    }
+}
+
+.spinner-container svg circle
+{
+    color: paleturquoise;
+    stroke-width: 1px !important;   
+}
+
+.login-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;    
+    background: rgba(0, 0, 0, .5);
+
+    .login-main
+    {
+        width: 500px;        
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 5px;
+
+        span
+        {            
+            color: red;
+        }
+    }
+}
+
+.paragraph-confirm
+{
+    font-size: 21px;
+    color: #000;
+}
+
+.modal-span-warning
+{
+    color: red;
+    display: block;
+    margin: -10px 0 !important;
+}
