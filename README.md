@@ -2,10 +2,10 @@
 
 Позволяет редактировать контент страниц сайта в браузере.
 
-![AdminPanel](https://user-images.githubusercontent.com/61114266/105154314-7bd89180-5b1a-11eb-843b-c15e96f64a96.png)
+![AdminPanel-1 01](https://user-images.githubusercontent.com/61114266/109686452-57e58280-7b93-11eb-97a1-ca8e2eb9fe89.png)
 
 Демонстрационный пример: [попробовать](https://adminpanel-demo-example.herokuapp.com/admin/). __Пароль__: 123456<br>
-Тестовые странички: [открыть index.html](https://adminpanel-demo-example.herokuapp.com/), [открыть agreement.html](https://adminpanel-demo-example.herokuapp.com/agreement.html).
+Страница демо-сайта: [открыть agreement.html](https://adminpanel-demo-example.herokuapp.com/agreement.html).
 
 ## Использование
 
