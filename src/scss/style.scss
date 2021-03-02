@@ -113,7 +113,12 @@ iframe
     border: 1px solid transparent;
 }
 
-.sz-button-success:hover
+.sz-button-success:hover, .sz-button-success:focus
 {
     background-color: #009b00;
+}
+
+.sz-button-success:active
+{
+    background-color: #008c00;
 }
