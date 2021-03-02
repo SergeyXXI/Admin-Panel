@@ -5,7 +5,7 @@
 ![AdminPanel-1 01](https://user-images.githubusercontent.com/61114266/109686452-57e58280-7b93-11eb-97a1-ca8e2eb9fe89.png)
 
 Демонстрационный пример: [попробовать](https://adminpanel-demo-example.herokuapp.com/admin/). __Пароль__: 123456<br>
-Страница демо-сайта: [открыть agreement.html](https://adminpanel-demo-example.herokuapp.com/agreement.html).
+(cтраница демо-сайта: [открыть agreement.html](https://adminpanel-demo-example.herokuapp.com/agreement.html)).
 
 ## Использование
 
