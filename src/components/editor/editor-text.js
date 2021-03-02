@@ -5,7 +5,7 @@ export default class EditorText
         this.node = node;
         this.virtualNode = virtualNode;
 
-        this.node.addEventListener("click", () => this.textNodeClickHandler());      
+        this.node.addEventListener("click", (e) => this.textNodeClickHandler(e));      
         this.node.addEventListener("input", () => this.textNodeInputHandler());
         this.node.addEventListener("blur", () => this.textNodeBlurHandler());
         this.node.addEventListener("keypress", e => this.textNodeKeyboardHandler(e));
@@ -16,8 +16,9 @@ export default class EditorText
         }
     }
 
-    textNodeClickHandler() 
-    {            
+    textNodeClickHandler(e) 
+    {           
+        if(e) e.preventDefault();        
         this.node.contentEditable = true; 
         this.node.focus();   
     }

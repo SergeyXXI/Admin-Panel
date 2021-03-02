@@ -12,13 +12,13 @@ import Panel from "../panel/Panel";
 import EditorMeta from "../editor-meta/EditorMeta";
 import Login from "../login/Login";
 
-var workPage = "index.html", iframe, virtualDOM,
+var currentPage = "index.html", iframe, virtualDOM,
     imgUploader, img, imgVirtual;
 
 const getPages = setPages =>
 {
     axios.get("api/")
-    .then(resp => setPages(resp.data));
+    .then(resp => setPages(resp.data));    
 };
 
 const enableTextEditing = () =>
@@ -37,20 +37,25 @@ const enableTextEditing = () =>
 
 const enableImageEditing = () =>
 {
-    imgUploader = document.getElementById("img-uploader");
+    imgUploader = document.getElementById("img-uploader");    
 
     iframe.contentDocument.querySelectorAll("[editableimgid]").forEach(item =>
     {
         const id = item.getAttribute("editableimgid");
         const virtualElement = virtualDOM.querySelector(`[editableimgid="${id}"]`);
-
-        item.addEventListener("click", e =>
-        {  
+        
+        item.addEventListener("contextmenu", e =>
+        {
+            e.preventDefault();            
             img = item;
             imgVirtual = virtualElement;
-            imgUploader.click()
-        });
-        
+            imgUploader.click();
+        })
+
+        item.addEventListener("click", e =>
+        { 
+            e.preventDefault();            
+        });        
        
     });    
                                                                
@@ -60,7 +65,7 @@ const injectIframeStyles = () =>
 {
     const style = iframe.contentDocument.createElement("style");
     style.innerHTML =
-    `text-editor:hover, [editableimgid]:hover
+    `text-editor:hover
      {
         outline: 3px solid orange;
         outline-offset: 5px;
@@ -69,11 +74,13 @@ const injectIframeStyles = () =>
      {
         outline: 3px solid red;
         outline-offset: 5px;
-     } 
+     }
      [editableimgid]:hover
      {
-         cursor: pointer
-     }    
+        outline: 3px solid #0089ffcc;
+        outline-offset: 5px;
+        cursor: pointer
+     }       
      `;
       
     iframe.contentDocument.head.append(style);
@@ -81,8 +88,7 @@ const injectIframeStyles = () =>
 
 export const Editor = () =>
 {
-    const [pages, setPages] = useState();
-    const [pageTitle, setPageTitle] = useState("");
+    const [pages, setPages] = useState();    
     const [loading, setLoading] = useState(true);
     const [backups, setBackups] = useState([]); 
     const [authd, setAuthd] = useState(null);       
@@ -90,17 +96,16 @@ export const Editor = () =>
     const initIframe = () =>
     {        
         iframe = document.querySelector("iframe");    
-        openPage(workPage);
+        openPage(currentPage);
     };
 
     const openPage = page =>
     {
-        setLoading(true);
-        workPage = page;       
+        setLoading(true);            
 
-        const currentPage = `../${page}`;
+        const requestPage = `../${page}`;
 
-        axios.get(`${currentPage}?rnd=${Math.random()}`)
+        axios.get(`${requestPage}?rnd=${Math.random()}`)
              .then(response => parseStrToDOM(response.data))
              .then(wrapTextNodes)
              .then(wrapImages)         
@@ -110,7 +115,7 @@ export const Editor = () =>
              .then(() => iframe.load("../temp_sdjfhj734_dhghery7234.html"))
              .then(() => enableTextEditing())
              .then(() => enableImageEditing())
-             .then(() => injectIframeStyles())
+             .then(() => { injectIframeStyles(); currentPage = page; })
              .then(() => axios.post("api/deletePage.php", {name: "temp_sdjfhj734_dhghery7234.html"}))
              .then(() => getBackups())
              .finally(() => setLoading(false));
@@ -125,7 +130,7 @@ export const Editor = () =>
         unwrapImages(newDOM);
         const html = parseDOMtoStr(newDOM);
 
-        await axios.post("api/savePage.php", {html, page: workPage})
+        await axios.post("api/savePage.php", {html, page: currentPage})
                    .then(() => UIkit.notification("Изменения успешно сохранены!",
                                                   {status: 'success', timeout: 2000}))
                    .catch(() => UIkit.notification("Ошибка сохранения :(", {status:'danger', timeout: 2000}))
@@ -137,7 +142,7 @@ export const Editor = () =>
     const getBackups = () =>
     {
         axios.get(`backups/backup.json?rnd=${Date.now()}`)
-             .then(response => { setBackups(response.data.filter(item => item.page === workPage))})
+             .then(response => { setBackups(response.data.filter(item => item.page === currentPage))})
              .catch(() => {});            
         
     };
@@ -176,22 +181,19 @@ export const Editor = () =>
     {
         return axios.post("api/login.php", {password})
                     .then(({data}) =>
-                          {       
-                                switch(data)
-                                {
-                                    case true: setAuthd(true); break;
-                                    case false: setAuthd(false); break;                                    
-                                }
+                          {   
+                              if(data === true) setAuthd(true);
+                              else              setAuthd(false);                            
 
-                                return data;                                
+                              return data;                                
                                     
                           });
     };
    
     const logOut = () =>
     {
-        axios.get("api/logOut.php")
-             .then(() => setAuthd(false));
+        axios.get("api/logOut.php")            
+             .then(() => window.location = "/");
     };
 
     useEffect(() =>

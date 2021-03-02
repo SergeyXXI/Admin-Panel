@@ -6,7 +6,7 @@ const cleanCSS = require("gulp-clean-css");
 const postcss = require("gulp-postcss");
 
 const dist = "app/admin/";
-const prod = "./build/";
+const prod = "./admin/";
 
 function html()
 {

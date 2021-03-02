@@ -105,3 +105,15 @@ iframe
     display: block;
     margin: -10px 0 !important;
 }
+
+.sz-button-success
+{
+    background-color: #00aa00;
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+.sz-button-success:hover
+{
+    background-color: #009b00;
+}

@@ -55,4 +55,4 @@ export const wrapImages = dom =>
 export const unwrapImages = dom =>
 {
     dom.querySelectorAll("[editableimgid]").forEach(img => img.removeAttribute("editableimgid"));    
-}
+};
